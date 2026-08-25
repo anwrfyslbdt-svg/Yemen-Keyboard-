@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 rootProject.name = "Yemen Keyboard"
 
 include(":library")
+include(":app")
