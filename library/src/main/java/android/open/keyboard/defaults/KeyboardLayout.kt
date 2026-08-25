@@ -23,24 +23,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextButton
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-
 
 @Extension(
     ID = "android.open.keyboard.defaults.KeyboardLayout",
@@ -59,12 +55,10 @@ class KeyboardLayout : AbstractComposeLayout() {
 
     private lateinit var lexiconManager: Lexicon
 
-
     override fun onCreate(context: Keyboard) {
         super.onCreate(context)
         lexiconManager = Lexicon(context)
     }
-
 
     @Composable
     override fun Layout(context: Keyboard) {
@@ -75,7 +69,6 @@ class KeyboardLayout : AbstractComposeLayout() {
                 .height(285.dp)
         ) {
 
-            // صورة خلفية الكيبورد
             Image(
                 painter = painterResource(
                     id = android.open.keyboard.R.drawable.e715a8a47afac740d2b06a6e87acac5c
@@ -85,8 +78,6 @@ class KeyboardLayout : AbstractComposeLayout() {
                 contentScale = ContentScale.Crop
             )
 
-
-            // محتوى الكيبورد فوق الصورة
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -124,19 +115,15 @@ class KeyboardLayout : AbstractComposeLayout() {
                                                 end = 15.dp
                                             )
                                             .fillMaxHeight(),
-
                                         contentAlignment = Alignment.Center
                                     ) {
 
                                         TextButton(
                                             modifier = Modifier.size(30.dp),
-
                                             onClick = {
                                                 lexicon.value = listOf()
                                             },
-
                                             contentPadding = PaddingValues(0.dp),
-
                                             colors = ButtonDefaults
                                                 .textButtonColors()
                                                 .copy(
@@ -155,11 +142,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                                         }
                                     }
 
-
-                                    Box(
-                                        modifier = Modifier
-                                    ) {
-
+                                    Box {
                                         Lexicon(
                                             buffer,
                                             shift,
@@ -173,10 +156,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                             }
                         }
 
-
-                        Box(
-                            modifier = Modifier
-                        ) {
+                        Box {
 
                             if (alphabeticView.value) {
 
@@ -192,10 +172,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                             }
                         }
 
-
-                        Box(
-                            modifier = Modifier
-                        ) {
+                        Box {
 
                             KeyboardUtilsRow(
                                 alphabeticView.value,
@@ -227,9 +204,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                                 onClick = {
                                     unloadExtensionFromView()
                                 },
-
                                 contentPadding = PaddingValues(0.dp),
-
                                 colors = ButtonDefaults
                                     .textButtonColors()
                                     .copy(
@@ -248,11 +223,9 @@ class KeyboardLayout : AbstractComposeLayout() {
                             }
                         }
 
-
                         Box(
                             modifier = Modifier.fillMaxWidth()
                         ) {
-
                             content!!.Content()
                         }
                     }
@@ -260,7 +233,6 @@ class KeyboardLayout : AbstractComposeLayout() {
             }
         }
     }
-
 
     override fun onResume(
         context: Keyboard,
@@ -272,7 +244,6 @@ class KeyboardLayout : AbstractComposeLayout() {
         shift = ShiftState.ON
         lexicon.value = listOf()
     }
-
 
     override fun onBufferChange(
         context: Keyboard,
