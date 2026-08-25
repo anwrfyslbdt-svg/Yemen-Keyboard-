@@ -1,4 +1,4 @@
-package android.open.keyboard.defaults
+package package android.open.keyboard.defaults
 
 import android.open.keyboard.Keyboard
 import android.open.keyboard.abstracts.layout.AbstractComposeLayout
@@ -10,6 +10,7 @@ import android.open.keyboard.defaults.layout.views.NumberView
 import android.open.keyboard.extensions.annotations.Extension
 import android.open.keyboard.utils.shift.ShiftState
 import android.view.inputmethod.EditorInfo
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Extension(ID = "android.open.keyboard.defaults.KeyboardLayout", description = "Simple Compose Keyboard Layout")
