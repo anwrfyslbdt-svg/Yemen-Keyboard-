@@ -40,6 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 @Extension(ID = "android.open.keyboard.defaults.KeyboardLayout", description = "Simple Compose Keyboard Layout")
 class KeyboardLayout : AbstractComposeLayout() {
     /**
+    import androidx.compose.ui.res.painterResource
      * Keyboard layout view
      */
     private val alphabeticView: MutableState<Boolean> = mutableStateOf(true)
