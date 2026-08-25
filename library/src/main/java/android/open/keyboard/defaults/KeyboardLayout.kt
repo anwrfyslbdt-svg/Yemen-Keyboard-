@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 
 @Extension(
     ID = "android.open.keyboard.defaults.KeyboardLayout",
-    description = "Simple Compose Keyboard Layout"
+    description = "Yemen Keyboard Layout"
 )
 class KeyboardLayout : AbstractComposeLayout() {
 
@@ -52,6 +52,9 @@ class KeyboardLayout : AbstractComposeLayout() {
 
     private val lexicon: MutableState<List<String>> =
         mutableStateOf(ArrayList())
+
+    private val yemenView: MutableState<Boolean> =
+        mutableStateOf(false)
 
     private lateinit var lexiconManager: Lexicon
 
@@ -69,6 +72,9 @@ class KeyboardLayout : AbstractComposeLayout() {
                 .height(285.dp)
         ) {
 
+            /*
+             * خلفية الكيبورد الأصلية
+             */
             Image(
                 painter = painterResource(
                     id = android.open.keyboard.R.drawable.e715a8a47afac740d2b06a6e87acac5c
@@ -86,12 +92,73 @@ class KeyboardLayout : AbstractComposeLayout() {
                     )
             ) {
 
-                if (content == null) {
+                /*
+                 * إذا فتح المستخدم قسم اليمن
+                 */
+                if (yemenView.value) {
+
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp)
+                        ) {
+
+                            TextButton(
+                                onClick = {
+                                    yemenView.value = false
+                                },
+                                contentPadding = PaddingValues(0.dp),
+                                colors = ButtonDefaults
+                                    .textButtonColors()
+                                    .copy(
+                                        contentColor = Color.White
+                                    )
+                            ) {
+
+                                Icon(
+                                    Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                                    contentDescription = "Back"
+                                )
+                            }
+                        }
+
+                        /*
+                         * صورة الإيموجيات اليمنية
+                         */
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+
+                            Image(
+                                painter = painterResource(
+                                    id = android.open.keyboard.R.drawable.yemen_emojis
+                                ),
+                                contentDescription = "Yemen Emojis",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                                    .padding(8.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                        }
+                    }
+
+                } else if (content == null) {
 
                     Column(
                         modifier = Modifier.fillMaxWidth()
                     ) {
 
+                        /*
+                         * الشريط العلوي
+                         */
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -100,7 +167,39 @@ class KeyboardLayout : AbstractComposeLayout() {
 
                             if (lexicon.value.isEmpty()) {
 
-                                ExtensionLayout(extensions)
+                                Row(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+
+                                    ExtensionLayout(extensions)
+
+                                    /*
+                                     * زر القسم اليمني
+                                     */
+                                    TextButton(
+                                        modifier = Modifier
+                                            .padding(start = 4.dp)
+                                            .size(40.dp),
+                                        onClick = {
+                                            yemenView.value = true
+                                        },
+                                        contentPadding = PaddingValues(0.dp),
+                                        colors = ButtonDefaults
+                                            .textButtonColors()
+                                            .copy(
+                                                contentColor = Color.White
+                                            )
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(
+                                                id = android.open.keyboard.R.drawable.yemen_emojis
+                                            ),
+                                            contentDescription = "Yemen"
+                                        )
+                                    }
+                                }
 
                             } else {
 
@@ -137,12 +236,13 @@ class KeyboardLayout : AbstractComposeLayout() {
 
                                             Icon(
                                                 Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                                                "Back"
+                                                contentDescription = "Back"
                                             )
                                         }
                                     }
 
                                     Box {
+
                                         Lexicon(
                                             buffer,
                                             shift,
@@ -156,6 +256,9 @@ class KeyboardLayout : AbstractComposeLayout() {
                             }
                         }
 
+                        /*
+                         * لوحة الحروف والأرقام
+                         */
                         Box {
 
                             if (alphabeticView.value) {
@@ -172,6 +275,9 @@ class KeyboardLayout : AbstractComposeLayout() {
                             }
                         }
 
+                        /*
+                         * الصف السفلي
+                         */
                         Box {
 
                             KeyboardUtilsRow(
@@ -190,6 +296,9 @@ class KeyboardLayout : AbstractComposeLayout() {
 
                 } else {
 
+                    /*
+                     * الإضافات
+                     */
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
@@ -218,7 +327,7 @@ class KeyboardLayout : AbstractComposeLayout() {
 
                                 Icon(
                                     Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                                    "Back"
+                                    contentDescription = "Back"
                                 )
                             }
                         }
@@ -226,6 +335,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                         Box(
                             modifier = Modifier.fillMaxWidth()
                         ) {
+
                             content!!.Content()
                         }
                     }
@@ -243,6 +353,7 @@ class KeyboardLayout : AbstractComposeLayout() {
         specialView.value = false
         shift = ShiftState.ON
         lexicon.value = listOf()
+        yemenView.value = false
     }
 
     override fun onBufferChange(
