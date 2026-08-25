@@ -3,13 +3,13 @@
 
     <application
         android:allowBackup="true"
-        android:label="Yemen Keyboard"
+        android:label="@string/app_name"
         android:supportsRtl="true">
 
         <service
-            android:name="android.open.keyboard.Keyboard"
+            android:name=".YemenKeyboardService"
             android:exported="true"
-            android:label="Yemen Keyboard"
+            android:label="@string/app_name"
             android:permission="android.permission.BIND_INPUT_METHOD">
 
             <intent-filter>
