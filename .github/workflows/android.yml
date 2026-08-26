@@ -28,10 +28,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -59,14 +61,7 @@ class KeyboardLayout : AbstractComposeLayout() {
 
     private lateinit var lexiconManager: Lexicon
 
-    /*
-     * اسم الصورة الأصلي بدون أي تغيير
-     *
-     * الصورة موجودة في:
-     *
-     * library/src/main/assets/
-     *
-     */
+    // اسم الصورة الأصلي - لا نغيره
     private val yemenImageName =
         "7fd67a1b4789485114e09c3deb1f5ab1.jpg"
 
@@ -75,16 +70,14 @@ class KeyboardLayout : AbstractComposeLayout() {
         lexiconManager = Lexicon(context)
     }
 
-    /*
-     * تحميل صورة اليمن من assets
-     */
     @Composable
     private fun YemenImage(context: Keyboard) {
 
-        val bitmap = androidx.compose.runtime.remember {
+        val bitmap = remember {
+
             try {
-                context.assets.open(yemenImageName).use {
-                    BitmapFactory.decodeStream(it)
+                context.assets.open(yemenImageName).use { stream ->
+                    BitmapFactory.decodeStream(stream)
                 }
             } catch (e: Exception) {
                 null
@@ -92,6 +85,7 @@ class KeyboardLayout : AbstractComposeLayout() {
         }
 
         if (bitmap != null) {
+
             Image(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = "Yemen Emojis",
@@ -100,6 +94,13 @@ class KeyboardLayout : AbstractComposeLayout() {
                     .fillMaxHeight()
                     .padding(8.dp),
                 contentScale = ContentScale.Fit
+            )
+
+        } else {
+
+            Text(
+                text = "تعذر تحميل صور اليمن",
+                color = Color.White
             )
         }
     }
@@ -114,21 +115,23 @@ class KeyboardLayout : AbstractComposeLayout() {
         ) {
 
             /*
-             * إذا فتح المستخدم قسم اليمن
+             * =========================
+             * شاشة صور اليمن
+             * =========================
              */
             if (yemenView.value) {
 
                 Column(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black)
                 ) {
 
-                    /*
-                     * زر الرجوع
-                     */
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(40.dp)
+                            .height(45.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
 
                         TextButton(
@@ -137,8 +140,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                             },
                             contentPadding = PaddingValues(0.dp),
                             colors = ButtonDefaults
-                                .textButtonColors()
-                                .copy(
+                                .textButtonColors(
                                     contentColor = Color.White
                                 )
                         ) {
@@ -147,17 +149,18 @@ class KeyboardLayout : AbstractComposeLayout() {
                                 Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                                 contentDescription = "Back"
                             )
+
+                            Text(
+                                text = "رجوع",
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
                         }
                     }
 
-                    /*
-                     * صورة الإيموجيات اليمنية
-                     */
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(240.dp)
-                            .background(Color.Black),
+                            .height(240.dp),
                         contentAlignment = Alignment.Center
                     ) {
 
@@ -167,6 +170,11 @@ class KeyboardLayout : AbstractComposeLayout() {
 
             } else if (content == null) {
 
+                /*
+                 * =========================
+                 * الكيبورد الطبيعي
+                 * =========================
+                 */
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -195,25 +203,20 @@ class KeyboardLayout : AbstractComposeLayout() {
                                 TextButton(
                                     modifier = Modifier
                                         .padding(start = 4.dp)
-                                        .size(40.dp),
+                                        .size(55.dp),
                                     onClick = {
                                         yemenView.value = true
                                     },
                                     contentPadding = PaddingValues(0.dp),
                                     colors = ButtonDefaults
-                                        .textButtonColors()
-                                        .copy(
+                                        .textButtonColors(
                                             contentColor = Color.White
                                         )
                                 ) {
 
-                                    /*
-                                     * لا نستخدم R.drawable هنا
-                                     * لأن الصورة موجودة في assets
-                                     */
-                                    Icon(
-                                        Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                                        contentDescription = "Yemen"
+                                    Text(
+                                        text = "🇾🇪",
+                                        color = Color.White
                                     )
                                 }
                             }
@@ -241,8 +244,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                                         },
                                         contentPadding = PaddingValues(0.dp),
                                         colors = ButtonDefaults
-                                            .textButtonColors()
-                                            .copy(
+                                            .textButtonColors(
                                                 contentColor = Color(
                                                     0.9f,
                                                     0.9f,
@@ -314,7 +316,9 @@ class KeyboardLayout : AbstractComposeLayout() {
             } else {
 
                 /*
+                 * =========================
                  * الإضافات
+                 * =========================
                  */
                 Column(
                     modifier = Modifier.fillMaxSize()
@@ -332,8 +336,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                             },
                             contentPadding = PaddingValues(0.dp),
                             colors = ButtonDefaults
-                                .textButtonColors()
-                                .copy(
+                                .textButtonColors(
                                     contentColor = Color(
                                         0.9f,
                                         0.9f,
