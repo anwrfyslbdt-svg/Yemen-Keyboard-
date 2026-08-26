@@ -1,4 +1,4 @@
-package android.open.keyboard.defaults
+package android.open.keyboard.defaultspackage
 
 import android.open.keyboard.Keyboard
 import android.open.keyboard.abstracts.layout.AbstractComposeLayout
@@ -13,16 +13,7 @@ import android.view.inputmethod.EditorInfo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ButtonDefaults
@@ -67,13 +58,11 @@ class KeyboardLayout : AbstractComposeLayout() {
     override fun Layout(context: Keyboard) {
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(285.dp)
+            modifier = Modifier.fillMaxSize()
         ) {
 
             /*
-             * خلفية الكيبورد الأصلية
+             * الخلفية
              */
             Image(
                 painter = painterResource(
@@ -88,12 +77,17 @@ class KeyboardLayout : AbstractComposeLayout() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
-                        Color(0.1f, 0.1f, 0.1f, 0.35f)
+                        Color(
+                            0.1f,
+                            0.1f,
+                            0.1f,
+                            0.35f
+                        )
                     )
             ) {
 
                 /*
-                 * إذا فتح المستخدم قسم اليمن
+                 * قسم الإيموجيات اليمنية
                  */
                 if (yemenView.value) {
 
@@ -104,7 +98,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(40.dp)
+                                .height(45.dp)
                         ) {
 
                             TextButton(
@@ -126,13 +120,10 @@ class KeyboardLayout : AbstractComposeLayout() {
                             }
                         }
 
-                        /*
-                         * صورة الإيموجيات اليمنية
-                         */
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(200.dp),
+                                .weight(1f),
                             contentAlignment = Alignment.Center
                         ) {
 
@@ -142,8 +133,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                                 ),
                                 contentDescription = "Yemen Emojis",
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
+                                    .fillMaxSize()
                                     .padding(8.dp),
                                 contentScale = ContentScale.Fit
                             )
@@ -153,7 +143,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                 } else if (content == null) {
 
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxSize()
                     ) {
 
                         /*
@@ -175,7 +165,7 @@ class KeyboardLayout : AbstractComposeLayout() {
                                     ExtensionLayout(extensions)
 
                                     /*
-                                     * زر القسم اليمني
+                                     * زر اليمن
                                      */
                                     TextButton(
                                         modifier = Modifier
@@ -257,9 +247,11 @@ class KeyboardLayout : AbstractComposeLayout() {
                         }
 
                         /*
-                         * لوحة الحروف والأرقام
+                         * الحروف والأرقام
                          */
-                        Box {
+                        Box(
+                            modifier = Modifier.weight(1f)
+                        ) {
 
                             if (alphabeticView.value) {
 
@@ -278,7 +270,9 @@ class KeyboardLayout : AbstractComposeLayout() {
                         /*
                          * الصف السفلي
                          */
-                        Box {
+                        Box(
+                            modifier = Modifier.wrapContentHeight()
+                        ) {
 
                             KeyboardUtilsRow(
                                 alphabeticView.value,
@@ -333,7 +327,9 @@ class KeyboardLayout : AbstractComposeLayout() {
                         }
 
                         Box(
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
                         ) {
 
                             content!!.Content()
